@@ -18,25 +18,29 @@ const Login = () => {
             }
         },[])
     const handleLogin = async (e) => {
-        e.preventDefault();
+    e.preventDefault();
 
-        try {
-            const response = await axios.post("http://localhost:5000/api/auth/login", {
-                email,
-                password,
-            }, { withCredentials: true }); // Make sure cookies are sent with the request (if required)
+    try {
+        const response = await axios.post("http://localhost:5000/api/auth/login", {
+            email,
+            password,
+        }, { withCredentials: true });
 
-            // Store the token securely (consider HTTP-only cookies in production)
-            localStorage.setItem("token", response.data.token);
-            
-            // Navigate to the dashboard after successful login
+        // Store token and role in localStorage
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("role", response.data.user.role);  // Set user role
+
+        // Redirect based on role
+        if (response.data.user.role === "admin") {
+            navigate("/admin/dashboard");
+        } else {
             navigate("/dashboard");
-        } catch (error) {
-            // Improved error handling: check if error.response exists and handle
-            const message = error.response?.data?.message || "Login failed. Please try again.";
-            setErrorMessage(message);
         }
-    };
+    } catch (error) {
+        const message = error.response?.data?.message || "Login failed. Please try again.";
+        setErrorMessage(message);
+    }
+};
 
     return (
         <form onSubmit={handleLogin}>

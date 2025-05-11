@@ -4,7 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require('./config/db');
 const enrollRoutes = require('./routes/enroll');
-const authRoutes = require("./routes/auth");
+const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/admin");
 
 dotenv.config();
