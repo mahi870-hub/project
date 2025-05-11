@@ -149,3 +149,32 @@
     width: 25px;
   }
 }
+
+.profile-dropdown .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 80%;
+  right: 0;
+  background-color: black;
+  padding: 8px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  list-style: none;
+  border-radius: 8px;
+  min-width: 150px;
+}
+
+.profile-dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.profile-dropdown .dropdown-menu li {
+  padding: 8px 16px;
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
+}
+
+.profile-dropdown .dropdown-menu li:hover {
+  background-color: darkcyan;
+}

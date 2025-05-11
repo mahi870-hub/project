@@ -32,19 +32,15 @@ const Dashboard = () => {
             });
     }, [navigate]);
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        navigate("/login");
-    };
+   
 
     return (
         <>
             {user ? (
                 <>
-                    {/* <h1>Welcome, {user.username}!</h1>
-                    <p>Email: {user.email}</p> */}
+                    
                     <Home />
-                    <button onClick={handleLogout}>Logout</button>
+                   
                 </>
             ) : (
                 <p>Loading...</p>

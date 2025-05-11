@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './LiveClassess.css';  // Style file
+import { useNavigate } from "react-router-dom";
+
 
 const LiveClassess = () => {
+    const navigate = useNavigate();
+
   // Sample data (replace with real API data if needed)
   const [sessions, setSessions] = useState([
     {
@@ -41,6 +45,14 @@ const LiveClassess = () => {
       link: 'https://meet.google.com/abc-defg-hij',
     },
   ]);
+
+   useEffect(() => {
+            const token = localStorage.getItem("token");
+    
+            if (!token) {
+                navigate("/login");
+            }
+        },[])
 
   return (
     <div className="live-session-container">

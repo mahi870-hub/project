@@ -8,6 +8,14 @@ const Signup = () => {
     const { id } = useParams();  // Assuming you pass the email as 'id' in the route
     const navigate = useNavigate();
 
+      useEffect(() => {
+            const token = localStorage.getItem("token");
+    
+            if (token) {
+                navigate("/dashboard");
+            }
+        },[])
+        
     // Set the email value if the 'id' parameter exists in the URL
     useEffect(() => {
         if (id) {

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './NavBar.css';
+import { CgProfile } from "react-icons/cg";
+import { CiLogin } from "react-icons/ci";
 
 function NavBar() {
   const [status, setStatus] = useState(false);
@@ -9,11 +11,12 @@ function NavBar() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    setStatus(!!token); // shorthand for setting true/false based on token presence
+    token ? setStatus(true) : setStatus(false);
   }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    setStatus(false);
     navigate("/login");
   };
 
@@ -52,23 +55,28 @@ function NavBar() {
               </NavLink>
             </li>
 
+            {status ? (
+              <li className="profile-dropdown" style={{ position: "relative", cursor: "pointer" }}>
+                 <CgProfile size={20}/>
+                <ul className="dropdown-menu">
+                  <li>
+                    <NavLink to="/dashboard">Dashboard</NavLink>
+                  </li>
+                  <li onClick={handleLogout}>
+                    <i className="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                  </li>
+                </ul>
+              </li>
+            ) : (
+              <li id="lg-bag">
+                <NavLink to="/login" onClick={() => setMenuOpen(false)}>
+                  <CiLogin /> Login
+                </NavLink>
+              </li>
+            )}
 
-            {/* {status ? (
-            <li>
-              <i
-                id="signin"
-                className="fa-solid fa-arrow-right-from-bracket"
-                onClick={handleLogout}
-              ></i> Logout
-            </li>
-          ) : (
-            
-          )} */}
-            <li id="lg-bag">
-              <NavLink to="/login" onClick={() => setMenuOpen(false)}>
-                <i className="fa-solid fa-user"></i> Login
-              </NavLink>
-            </li>
+
+
           </ul>
         </nav>
       </section>

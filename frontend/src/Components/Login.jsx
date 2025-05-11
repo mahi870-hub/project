@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import './Login.css';
@@ -8,7 +8,15 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
-
+     
+        useEffect(() => {
+            const token = localStorage.getItem("token");
+    
+            if (token) {
+                navigate("/dashboard");
+                
+            }
+        },[])
     const handleLogin = async (e) => {
         e.preventDefault();
 
