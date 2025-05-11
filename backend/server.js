@@ -2,8 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const connectDB = require('./config/db');
+const enrollRoutes = require('./routes/enroll');
+const authRoutes = require("./routes/auth");
+const adminRoutes = require("./routes/admin");
 
 dotenv.config();
+connectDB();
 const app = express();
 
 // ✅ Allowed origins for dev and production
@@ -36,8 +41,10 @@ mongoose.connect(process.env.MONGO_URI, {
   .catch((err) => console.log(err));
 
 // Routes
-const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes); // ← admin routes
+
+app.use('/api/enroll', enrollRoutes);
 
 // Server
 const PORT = process.env.PORT || 5000;

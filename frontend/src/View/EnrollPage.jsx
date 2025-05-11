@@ -75,16 +75,40 @@ const EnrollPage = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (formData.name && formData.email) {
-      // Simulate successful enrollment
-      setMessage('You have successfully enrolled in the course!');
-      // Here, you would likely send a request to the backend for real enrollment
-    } else {
-      setMessage('Please fill in all the fields.');
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (formData.name && formData.email) {
+    try {
+      const response = await fetch('http://localhost:5000/api/enroll', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          courseId: course.id,
+          courseTitle: course.title,
+          studentName: formData.name,
+          studentEmail: formData.email,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage(data.message || 'You have successfully enrolled in the course!');
+        setFormData({ name: '', email: '' }); // Clear form after success
+      } else {
+        setMessage(data.error || 'Enrollment failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Enrollment error:', error);
+      setMessage('Server error. Please try again later.');
     }
-  };
+  } else {
+    setMessage('Please fill in all the fields.');
+  }
+};
 
   return (
     <div className="enroll-page-container">

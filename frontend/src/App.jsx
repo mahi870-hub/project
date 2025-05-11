@@ -12,6 +12,7 @@ import EnrollPage from './View/EnrollPage';
 import Signup from './Components/Signup';
 import Dashboard from './View/Dashboard';
 import LiveClassess from './View/LiveClassess'; 
+import AdminDashboard from './View/AdminDashboard';
 
 const App = () => {
     return (
@@ -28,6 +29,7 @@ const App = () => {
                     <Route path="/live-classess" element={<LiveClassess />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/admin/dashboard" element={<AdminDashboard/>} />
                 </Routes>
             </div>
         </Router>

@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Home from "./Home";
-
+import Home from "./Home"; // user dashboard
 
 const Dashboard = () => {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
- 
+
     useEffect(() => {
         const token = localStorage.getItem("token");
 
@@ -16,14 +15,20 @@ const Dashboard = () => {
             return;
         }
 
-        // Axios request to fetch user data
         axios.get("http://localhost:5000/api/auth/me", {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         })
             .then((res) => {
-                setUser(res.data);
+                const userData = res.data;
+
+                // If user is admin, redirect to admin dashboard
+                if (userData.role === "admin") {
+                    navigate("/admin/dashboard");
+                } else {
+                    setUser(userData);
+                }
             })
             .catch((error) => {
                 console.error("Error fetching user:", error);
@@ -32,19 +37,9 @@ const Dashboard = () => {
             });
     }, [navigate]);
 
-   
-
     return (
         <>
-            {user ? (
-                <>
-                    
-                    <Home />
-                   
-                </>
-            ) : (
-                <p>Loading...</p>
-            )}
+            {user ? <Home /> : <p>Loading...</p>}
         </>
     );
 };
